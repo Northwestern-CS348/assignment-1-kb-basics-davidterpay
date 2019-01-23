@@ -13,7 +13,6 @@ class KBTest(unittest.TestCase):
         for item in data:
             if isinstance(item, Fact):
                 self.KB.kb_assert(item)
-        
 
     def test1(self):
         ask1 = read.parse_input("fact: (color bigbox red)")
@@ -53,7 +52,37 @@ class KBTest(unittest.TestCase):
         self.assertEqual(str(answer[3]), "?X : pyramid2, ?Y : green")
         self.assertEqual(str(answer[4]), "?X : pyramid3, ?Y : red")
         self.assertEqual(str(answer[5]), "?X : pyramid4, ?Y : red")
-        
+    
+    def test6(self):
+        ask1 = read.parse_input("fact: (inst ?X box")
+        print("Asking if ", ask1)
+        answer = self.KB.kb_ask(ask1)
+        self.assertEqual(str(answer[0]), "?X : bigbox")
+        self.assertEqual(str(answer[1]), "?X : littlebox")
+    
+    def test7(self):
+        ask1 = read.parse_input("fact: (name ?X box")
+        print("Asking if ", ask1)
+        answer = self.KB.kb_ask(ask1)
+        self.assertFalse(answer)
+    
+    def test8(self):
+        ask1 = read.parse_input("fact: (name littlebox box")
+        print("Asking if ", ask1)
+        answer = self.KB.kb_ask(ask1)
+        self.assertFalse(answer)
+    
+    def test9(self):
+        ask1 = read.parse_input("fact: (name ?X ?Y")
+        print("Asking if ", ask1)
+        answer = self.KB.kb_ask(ask1)
+        self.assertFalse(answer)
+    
+    # def test8(self):
+    #     ask1 = read.parse_input("fact: (?P littlebox box")
+    #     print("Asking if ", ask1)
+    #     answer = self.KB.kb_ask(ask1)
+    #     self.assertEqual(str(answer[0]), "?P : inst")
 
 if __name__ == '__main__':
     unittest.main()
